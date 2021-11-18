@@ -19,7 +19,13 @@ int main()
                 count++;
             }
         }
-        cout<<array[i]<<" occurs "<<count<<" times"<<endl;
+        bool flag=true;
+        for(int j=i-1; j>=0; j--){
+            if(array[i]==array[j])
+                flag = false;
+        }
+        if(flag)
+            cout<<array[i]<<" occurs "<<count<<" times"<<endl;
     }
     return 0;
 }
