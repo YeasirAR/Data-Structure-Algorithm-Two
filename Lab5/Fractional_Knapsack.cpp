@@ -2,29 +2,27 @@
 #include<algorithm>
 using namespace std;
 
-struct Item{
+struct Item_List{
     float v,w;
 };
-bool comp(Item i1, Item i2){
-    return i1.v/i1.w > i2.v/i2.w;
+bool compare_to(Item_List c1, Item_List c2){
+    return (c2.v/c2.w)<(c1.v/c1.w);
 }
-void fractional_knapsack(int W, Item items[], int n){
-    sort(items, items+n,comp);
+float Fractional_Knapsack(int W, Item_List item[], int size){
+    sort(item, item+size,compare_to);
     int w = W;
-    int i=0;
-    while (w>0 && i<n){
-        cout<< "Picked item "<<i<<"( "<< items[i].v<<", "<<items[i].w<<") "<<endl;
-        float wi = items[i].w;
-        float xi = min(1.0,w*1.0/wi);
-        cout<<"\t"<<xi<<endl;
-        w=w-xi*wi;
-        i++;
+    int sum = 0;
+    for(int i=0; w>0 && i<size; i++){
+        float wi = item[i].w;
+        w=w-wi;
+        if(w>=0)
+            sum+=item[i].v;
     }
-    //add return here!
+    return sum;
 }
 
 int main(){
-    Item arr[] ={{1,4},{8,4},{3,4},{1,7},{5,6},{9,4},{4,3}};
-    int n=sizeof(arr)/sizeof(arr[0]);
-    fractional_knapsack(7,arr,n);
+    Item_List A[] ={{ 60, 10 }, { 100, 20 }, { 120, 30 }};
+    int size=sizeof(A)/sizeof(A[0]);
+    cout<< "Max Value: "<<Fractional_Knapsack(49,A,size);
 }

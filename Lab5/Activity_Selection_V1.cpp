@@ -5,16 +5,18 @@ struct Act_Sel{
     int index;
     int start;
     int finish;
+    char ch;
 };
 bool compare_to(Act_Sel c1, Act_Sel c2){
     return c1.finish<c2.finish;
 }
-vector<Act_Sel> activity_selection(int s[],int f[],int n){
+vector<Act_Sel> Activity_Selection(int s[],int f[],int n,char ch[]){
     Act_Sel st[n];
     for(int i=0; i<n; i++){
         st[i].index=i;
         st[i].start=s[i];
         st[i].finish=f[i];
+        st[i].ch=ch[i];
     }
     sort(st,st+n,compare_to);
     vector<Act_Sel> ret;
@@ -29,11 +31,17 @@ vector<Act_Sel> activity_selection(int s[],int f[],int n){
 }
 
 int main(){
-    int start[]={2,3,8,7};
-    int finish[]={8,4,1,1};
-    int size = sizeof(start)/sizeof(start[0]);
-    vector<Act_Sel> A = activity_selection(start,finish,size);
+    int x;
+    char ch[100];
+    int start[100];
+    int finish[100];
+    cin>>x;
+    for(int i=0;i<x;i++){
+        cin>>ch[i]>>start[i]>>finish[i];
+        finish[i]+=start[i];
+    }
+    vector<Act_Sel> A = Activity_Selection(start,finish,x,ch);
     for(Act_Sel s: A){
-        cout << s.index << " "<< s.start << " "<<s.finish<<endl;
+        cout <<s.ch<<endl;
     }
 }
