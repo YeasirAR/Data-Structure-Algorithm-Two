@@ -3,6 +3,7 @@ using namespace std;
 #define INF 99999
 int rod_cut(int n, int p[]){
     int profit[n+1];
+    int chosen_rod[n+1];
     profit[0]=0;
 
     for(int L=1; L<=n; L++){
@@ -11,9 +12,11 @@ int rod_cut(int n, int p[]){
             int curr_profit = p[rod]+profit[L-rod];
             if(curr_profit > profit[L]){
                 profit[L] = curr_profit;
+                chosen_rod[L]=rod;
             }
         }
     }
+    //print chosen rod
     return profit[n];
 
 }
