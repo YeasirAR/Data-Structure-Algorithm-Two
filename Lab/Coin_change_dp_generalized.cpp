@@ -46,7 +46,7 @@ int main()
 {
     int coins[3] = {1,4,6};
     int total = 11;
-    int n = 3;
+    int n = sizeof(coins)/sizeof(coins[0]);
     int result = coinchange(coins, total, n);
     if(result>=INF)
         cout << "Impossible\n";
