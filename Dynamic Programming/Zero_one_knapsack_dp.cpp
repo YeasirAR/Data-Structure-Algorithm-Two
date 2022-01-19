@@ -14,7 +14,7 @@ int knapsack(int W, int v[],int w[], int n){
             int w_i = w[i-1];
             int v_i = v[i-1];
             if(w_i <= ww){
-                if(v_i+P[i-1][ww-w_i]){
+                if(v_i+P[i-1][ww-w_i] > P[i-1][ww]){
                     P[i][ww]=v_i+P[i-1][ww-w_i];
                 }
                 else{
