@@ -1,6 +1,6 @@
 #include<iostream>
 using namespace std;
-#define INF 99999
+#define INF -99999
 
 void Merge(int A[], int p, int q, int r){
     int n1 = q-p+1;
@@ -17,7 +17,7 @@ void Merge(int A[], int p, int q, int r){
     R[n2] = INF;
     i=0, j=0;
     for(int k=p; k<=r; k++){
-        if(L[i]<=R[j]){
+        if(L[i]>=R[j]){
             A[k]=L[i];
             i++;
         }
@@ -36,27 +36,17 @@ void Merge_Sort(int A[], int p, int r){
     }
 }
 
-int main(){
-    int n,x;
-    cin>>n>>x;
-    int cap[n];
-    for(int i=0; i<n; i++){
-        cin>>cap[i];
-    }
+int main() {
 
-    Merge_Sort(cap, 0, n-1);
+    int A[]={8,7,-2,1,0,9,-6,8,-65,10};
+    int n = sizeof(A)/sizeof(A[0]);
 
-    int count=0;
-    for(int i=0; i<n; i++){
-        if(x>=cap[i]){
-            count++;
-            x=x-cap[i];
-        }
+    Merge_Sort(A, 0, n-1);
+
+    for (int i=0; i<n; i++){
+        cout<<A[i]<<" ";
     }
-    cout<<count;
+    cout<<endl;
+    return 0;
 }
 
-/*
-5 10
-8 5 4 3 2
-*/

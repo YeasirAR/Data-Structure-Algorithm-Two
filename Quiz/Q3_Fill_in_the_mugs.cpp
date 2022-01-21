@@ -52,6 +52,9 @@ int main(){
             count++;
             x=x-cap[i];
         }
+        else{
+            break;
+        }
     }
     cout<<count;
 }
