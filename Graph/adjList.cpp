@@ -1,6 +1,21 @@
 #include<bits/stdc++.h>
 using namespace std;
 #define MAX_VERTICES 20
+#define INF 99999
+
+struct student{
+    int course[5];
+};
+void Mark(){
+    struct student marks[60];
+    for(int i=0; i<60; i++){
+        cin>>marks[i].course[0];
+        cin>>marks[i].course[1];
+        cin>>marks[i].course[2];
+        cin>>marks[i].course[3];
+        cin>>marks[i].course[4];
+    }
+}
 
 class Graph{
     public:
@@ -18,6 +33,7 @@ class Graph{
     void DFS(int source);
     int getDistance(int s,int d);
     void printParentTree();
+    void DFS_Visit(int source);
 };
 
 void Graph:: AddEdge(int u,int v){
@@ -33,7 +49,6 @@ void Graph:: RemoveEdge(int u,int v){
             break;
         }
     }
-
     for (int i = 0; i < adjacencyList[v].size(); i++) {
         if (adjacencyList[v][i] == u) {
             adjacencyList[v].erase(adjacencyList[v].begin() + i);
@@ -42,57 +57,88 @@ void Graph:: RemoveEdge(int u,int v){
     }
 }
 void Graph:: BFS(int source){
-    visited[source] = false;
 
-    queue< int > Q;
-    Q.push(source);
-    distance[source]=0;
+    for(int i=0; i<num_vertices; i++){
+        visited[i] = false;
+        distance[i] = INF;
+    }
 
-    while(!Q.empty())
+    list<int> queue;
+
+    visited[source] = true;
+    distance[source] = 0;
+    queue.push_back(source);
+    cout <<"BFS: ";
+    while(queue.empty()==false)
     {
-        int visiting_node = Q.front();
-        Q.pop();
-        if(visited[visiting_node]==true)
-            continue;
+        int curr_vertex = queue.front();
+        queue.pop_front();
+        cout << curr_vertex << " ";
 
-        for(int i=0; i<adjacencyList[visiting_node].size(); i++){
-            int child = adjacencyList[visiting_node][i];
-            if(visited[child]==false){
-                Q.push(child);
-                distance[child]=distance[visiting_node]+1;
+    for(int i=0; i<adjacencyList[curr_vertex].size(); i++){
+        int adj_vertex = adjacencyList[curr_vertex][i];
+            if(visited[adj_vertex]==false){
+                visited[adj_vertex] = true;
+                distance[adj_vertex] = distance[curr_vertex] + 1;
+                parent[adj_vertex]=curr_vertex;
+                queue.push_back(adj_vertex);
             }
         }
-        visited[visiting_node] = true;
-        cout << visiting_node << " ";
     }
+    cout<<endl;
 }
 void Graph:: DFS(int source){
-    visited[source] = true;
-    cout<<source<<" ";
-    for(int v=0; v<adjacencyList[source].size(); v++) {
-        if(visited[v] == false) {
-            parent[v]=source;
-            DFS(adjacencyList[source][v]);
-        }
-    }
+    for(int i=0; i<num_vertices; i++){
+		visited[i] = false;
+	}
+    cout<<"DFS: ";
+	DFS_Visit(source);
+    cout<<endl;
 }
+
+void Graph:: DFS_Visit(int source) {
+	visited[source] = true;
+	cout << source << " " ;
+    for(int i=0; i<adjacencyList[source].size(); i++){
+        int adj_vertex = adjacencyList[source][i];
+        if(visited[adj_vertex] == false){
+            parent[adj_vertex]=source;
+			DFS_Visit(adj_vertex);
+		}
+	}
+}
+
 void Graph:: printParentTree(){
-//   for (int i = 0; i < num_vertices; i++) {
-//     cout << "\n Vertex " << i << ":";
-//     for (auto x : adjacencyList[i])
-//         cout << "-> " << x;
-//     cout<<endl;
-//   }
+    cout<<"Tree: "<<endl;
+    for(int i=0; i<num_vertices; i++){
+        cout<<i<<": ";
+        for(int j=0; j<adjacencyList[i].size(); j++){
+            int adj_vertex = adjacencyList[i][j];
+            cout<<adj_vertex<<" ";
+        }
+        cout<<endl;
+    }
 }
 
 int main()
 {
     Graph g1, g2;
     g1.is_directed=true;
-    g1.num_vertices=10;
+    g1.num_vertices=6;
 
     g2.is_directed=false;
     g2.num_vertices=8;
+
+    g1.AddEdge(0,1);
+    g1.AddEdge(1,2);
+    g1.AddEdge(1,3);
+    g1.AddEdge(2,3);
+    g1.AddEdge(2,4);
+    g1.AddEdge(4,5);
+    g1.AddEdge(3,5);
+    g1.BFS(0);
+    g1.DFS(0);
+    g1.printParentTree();
 
     return 0;
 }
